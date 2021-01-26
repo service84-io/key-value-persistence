@@ -1,13 +1,34 @@
 plugins {
   id 'com.diffplug.eclipse.apt' version '3.22.0'
+  id 'maven'
+  id 'signing'
   id 'maven-publish'
   id 'java-library'
   id 'eclipse'
   id 'java'
 }
 
+apply plugin: 'maven'
 apply plugin: 'eclipse'
 apply plugin: 'java'
+
+task javadocJar(type: Jar) {
+  classifier = 'javadoc'
+  from javadoc
+}
+
+task sourcesJar(type: Jar) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+}
+
+artifacts {
+  archives javadocJar, sourcesJar
+}
+
+signing {
+  sign configurations.archives
+}
 
 java {
   withSourcesJar()
@@ -17,6 +38,53 @@ jar {
   baseName = 'keyvaluepersistence'
   version = '1.0.0'
   enabled = true
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+        authentication(userName: ioService84OSSUsername, password: ioService84OSSPassword)
+      }
+
+      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+        authentication(userName: ioService84OSSUsername, password: ioService84OSSPassword)
+      }
+
+      pom.project {
+        name 'Key Value Persistence'
+        packaging 'jar'
+        description 'Provides a persisted key value service in a Spring service'
+        groupId 'io.service84.library'
+        artifactId jar.baseName
+        version = jar.version
+        url 'https://github.com/service84-io/key-value-persistence'
+
+        scm {
+          connection 'scm:git:https://github.com/service84-io/key-value-persistence.git'
+          developerConnection 'scm:git:https://github.com/service84-io/key-value-persistence.git'
+          url 'https://github.com/service84-io/key-value-persistence'
+        }
+
+        licenses {
+          license {
+            name 'The Apache License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          }
+        }
+
+        developers {
+          developer {
+            id 'tyler'
+            name 'Tyler'
+            email 'Tyler@service84.io'
+          }
+        }
+      }
+    }
+  }
 }
 
 sourceCompatibility = 11.0
