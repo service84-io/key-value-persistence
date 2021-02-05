@@ -13,4 +13,14 @@ public class KeyNotFound extends Exception {
       }
     };
   }
+
+  public KeyNotFound() {}
+
+  public KeyNotFound(String message) {
+    super(message);
+  }
+
+  public KeyNotFound(String message, Throwable cause) {
+    super(message, cause);
+  }
 }
