@@ -130,3 +130,7 @@ eclipse {
   synchronizationTasks eclipseJdt
   synchronizationTasks eclipseJdtApt
 }
+
+test {
+  useJUnitPlatform()
+}
