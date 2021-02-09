@@ -107,22 +107,36 @@ configurations.all {
 }
 
 dependencies {
-  implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.3.1.RELEASE'
+  compileOnly 'org.springframework:spring-core:5.0.0.RELEASE'
+  compileOnly 'org.springframework.data:spring-data-jpa:2.0.0.RELEASE'
+  compileOnly 'org.hibernate:hibernate-core:5.0.0.Final'
 
-  implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.4'
+  compileOnly 'com.fasterxml.jackson.core:jackson-databind:2.0.0'
 
-  implementation 'org.hibernate:hibernate-envers:5.4.22.Final'
+  compileOnly 'org.hibernate:hibernate-envers:5.0.0.Final'
 
   ////////////////////////////////
   //Test Dependencies/////////////
   ////////////////////////////////
-  testImplementation 'org.springframework.boot:spring-boot-starter-test:2.3.1.RELEASE'
+  // This fulfils the SpringCore and HibernateCore 5.x.x requirement
+  // As well as SpringDataJPA 2.x.x
+  testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.4.2'
+
+  // This fulfils the JacksonDataBind 2.x.x requirement
+  testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.11.4'
+
+  // This fulfils the Envers 5.x.x requirement
+  testRuntimeOnly 'org.hibernate:hibernate-envers:5.4.27.Final'
+
+  testRuntimeOnly 'com.h2database:h2:1.4.200'
+
+  testImplementation 'org.springframework.boot:spring-boot-starter-test:2.4.2'
 
   ////////////////////////////////
   //JPA Specification/////////////
   //Metamodel Generator///////////
   ////////////////////////////////
-  annotationProcessor 'org.hibernate:hibernate-jpamodelgen:5.4.14.Final'
+  annotationProcessor 'org.hibernate:hibernate-jpamodelgen:5.4.27.Final'
 }
 
 eclipse {

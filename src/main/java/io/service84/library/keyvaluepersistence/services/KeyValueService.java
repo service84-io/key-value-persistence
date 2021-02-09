@@ -3,8 +3,6 @@ package io.service84.library.keyvaluepersistence.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.service84.library.keyvaluepersistence.errors.KeyValueError;
@@ -23,12 +21,35 @@ public class KeyValueService {
   }
 
   public <T> T getValue(String key, Class<T> clazz) throws KeyNotFound {
+    KeyValue keyValue = repository.getByKey(key).orElseThrow(KeyNotFound.supplier());
+
     try {
-      KeyValue keyValue = repository.getByKey(key).orElseThrow(KeyNotFound.supplier());
       return objectMapper.readValue(keyValue.getValue(), clazz);
-    } catch (JsonMappingException e) {
+    } catch (Exception e) {
+      // We use a catch all to accommodate all possible exceptions
+      // thrown by all library versions, that is Jackson did not
+      // sufficiently comply with backwards compatibility, but it
+      // could also be that we have an unreasonable definition of
+      // backwards compatibility.
+      // Jackson may remove Exceptions from the throws clause, but
+      // Jackson should have continue to include class definitions
+      // for obsolete Exceptions
       throw new KeyValueError();
-    } catch (JsonProcessingException e) {
+    }
+  }
+
+  private String serializeValue(Object value) {
+    try {
+      return objectMapper.writeValueAsString(value);
+    } catch (Exception e) {
+      // We use a catch all to accommodate all possible exceptions
+      // thrown by all library versions, that is Jackson did not
+      // sufficiently comply with backwards compatibility, but it
+      // could also be that we have an unreasonable definition of
+      // backwards compatibility.
+      // Jackson may remove Exceptions from the throws clause, but
+      // Jackson should have continue to include class definitions
+      // for obsolete Exceptions
       throw new KeyValueError();
     }
   }
@@ -45,13 +66,9 @@ public class KeyValueService {
   }
 
   private void setValueHelper(String key, Object value) {
-    try {
-      String serializedValue = objectMapper.writeValueAsString(value);
-      KeyValue keyValue = repository.getByKey(key).orElse(new KeyValue(key));
-      keyValue.setValue(serializedValue);
-      repository.saveAndFlush(keyValue);
-    } catch (JsonProcessingException e) {
-      throw new KeyValueError();
-    }
+    String serializedValue = serializeValue(value);
+    KeyValue keyValue = repository.getByKey(key).orElse(new KeyValue(key));
+    keyValue.setValue(serializedValue);
+    repository.saveAndFlush(keyValue);
   }
 }
