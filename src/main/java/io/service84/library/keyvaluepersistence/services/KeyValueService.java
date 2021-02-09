@@ -20,7 +20,7 @@ public class KeyValueService {
     return keyValue.getValue();
   }
 
-  public <T> T getValue(String key, Class<T> clazz) throws KeyNotFound {
+  public <T> T getValue(String key, Class<T> clazz) throws KeyNotFound, KeyValueError {
     KeyValue keyValue = repository.getByKey(key).orElseThrow(KeyNotFound.supplier());
 
     try {
