@@ -38,7 +38,29 @@ public class KeyValueService {
     }
   }
 
-  private String serializeValue(Object value) {
+  public void setValue(String key, Object value) {
+    try {
+      setValueHelper(key, value);
+    } catch (Exception e) {
+      // This is a catch all, Transaction issues, Unique Violation, and others
+      // We should catch specific Exceptions.
+      // Final Attempt
+      setValueHelper(key, value);
+    }
+  }
+
+  private void setValueHelper(String key, Object value) {
+    String valueAsString = stringifyValue(value);
+    KeyValue keyValue = repository.getByKey(key).orElse(new KeyValue(key));
+    keyValue.setValue(valueAsString);
+    repository.saveAndFlush(keyValue);
+  }
+
+  private String stringifyValue(Object value) {
+    if (value.getClass().equals(String.class)) {
+      return (String) value;
+    }
+
     try {
       return objectMapper.writeValueAsString(value);
     } catch (Exception e) {
@@ -52,23 +74,5 @@ public class KeyValueService {
       // for obsolete Exceptions
       throw new KeyValueError();
     }
-  }
-
-  public void setValue(String key, Object value) {
-    try {
-      setValueHelper(key, value);
-    } catch (Exception e) {
-      // This is a catch all, Transaction issues, Unique Violation, and others
-      // We should catch specific Exceptions.
-      // Final Attempt
-      setValueHelper(key, value);
-    }
-  }
-
-  private void setValueHelper(String key, Object value) {
-    String serializedValue = serializeValue(value);
-    KeyValue keyValue = repository.getByKey(key).orElse(new KeyValue(key));
-    keyValue.setValue(serializedValue);
-    repository.saveAndFlush(keyValue);
   }
 }
