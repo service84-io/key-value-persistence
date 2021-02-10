@@ -40,7 +40,7 @@ java {
 
 jar {
   baseName = 'keyvaluepersistence'
-  version = '1.0.0'
+  version = '1.2.0-VIRTUAL-1.0-API-BASELINE'
   enabled = true
 }
 
