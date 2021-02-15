@@ -15,7 +15,7 @@ def s84Name = 'Key Value Persistence'
 def s84JarName = 'keyvaluepersistence'
 def s84Description = 'Provides a persisted key value service in a Spring service'
 def s84GithubBase = 'https://github.com/service84-io/key-value-persistence'
-def s84Version = '1.2.0'
+def s84Version = '1.2.1-SNAPSHOT'
 
 // configure all java components to be published
 publishing {
