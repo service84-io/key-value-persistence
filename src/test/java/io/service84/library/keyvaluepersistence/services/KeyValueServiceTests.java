@@ -86,8 +86,6 @@ public class KeyValueServiceTests {
     String value = UUID.randomUUID().toString();
     keyValueService.setValue(key, value);
     String gotValue = keyValueService.getValue(key);
-    System.out.println(value);
-    System.out.println(gotValue);
     assertEquals(value, gotValue);
   }
 
