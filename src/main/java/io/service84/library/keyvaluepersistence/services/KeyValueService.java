@@ -14,6 +14,8 @@
 
 package io.service84.library.keyvaluepersistence.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,15 +28,19 @@ import io.service84.library.keyvaluepersistence.persistence.repository.KeyValueR
 
 @Service("5470A35A-0F8E-4193-B15D-F7036A85E7C1")
 public class KeyValueService {
+  private static final Logger logger = LoggerFactory.getLogger(KeyValueService.class);
+
   @Autowired private ObjectMapper objectMapper;
   @Autowired private KeyValueRepository repository;
 
   public String getValue(String key) throws KeyNotFound {
+    logger.debug("getValue");
     KeyValue keyValue = repository.getByKey(key).orElseThrow(KeyNotFound.supplier());
     return keyValue.getValue();
   }
 
   public <T> T getValue(String key, Class<T> clazz) throws KeyNotFound, KeyValueError {
+    logger.debug("getValue");
     KeyValue keyValue = repository.getByKey(key).orElseThrow(KeyNotFound.supplier());
 
     try {
@@ -53,6 +59,7 @@ public class KeyValueService {
   }
 
   public void setValue(String key, Object value) {
+    logger.debug("setValue");
     try {
       setValueHelper(key, value);
     } catch (Exception e) {
