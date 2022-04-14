@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package io.service84.library.keyvaluepersistence.persistence.model;
+package io.service84.library.keyvaluepersistence.persistence.models;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

@@ -39,8 +39,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.service84.library.keyvaluepersistence.persistence.model.KeyValue;
-import io.service84.library.keyvaluepersistence.persistence.repository.KeyValueRepository;
+import io.service84.library.keyvaluepersistence.persistence.models.KeyValue;
+import io.service84.library.keyvaluepersistence.persistence.repositories.KeyValueRepository;
 import io.service84.library.keyvaluepersistence.services.KeyValueService;
 
 @ExtendWith(SpringExtension.class)

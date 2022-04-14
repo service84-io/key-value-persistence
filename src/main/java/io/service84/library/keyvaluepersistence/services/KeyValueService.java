@@ -23,8 +23,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.service84.library.keyvaluepersistence.errors.KeyValueError;
 import io.service84.library.keyvaluepersistence.exceptions.KeyNotFound;
-import io.service84.library.keyvaluepersistence.persistence.model.KeyValue;
-import io.service84.library.keyvaluepersistence.persistence.repository.KeyValueRepository;
+import io.service84.library.keyvaluepersistence.persistence.models.KeyValue;
+import io.service84.library.keyvaluepersistence.persistence.repositories.KeyValueRepository;
 
 @Service("5470A35A-0F8E-4193-B15D-F7036A85E7C1")
 public class KeyValueService {

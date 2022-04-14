@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package io.service84.library.keyvaluepersistence.persistence.repository;
+package io.service84.library.keyvaluepersistence.persistence.repositories;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -21,7 +21,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
-import io.service84.library.keyvaluepersistence.persistence.model.KeyValue;
+import io.service84.library.keyvaluepersistence.persistence.models.KeyValue;
 
 @Repository("036D1001-3BDC-476A-800E-042886341F00")
 public interface KeyValueRepository
