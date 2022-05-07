@@ -78,6 +78,10 @@ public class KeyValueService {
   }
 
   private String stringifyValue(Object value) {
+    if (value == null) {
+      return null;
+    }
+
     if (value.getClass().equals(String.class)) {
       return (String) value;
     }
