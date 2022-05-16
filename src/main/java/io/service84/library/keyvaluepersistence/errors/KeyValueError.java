@@ -36,4 +36,8 @@ public class KeyValueError extends Error {
   public KeyValueError(String message, Throwable cause) {
     super(message, cause);
   }
+
+  public KeyValueError(Throwable cause) {
+    super(cause);
+  }
 }
