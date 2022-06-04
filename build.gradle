@@ -25,12 +25,9 @@ plugins {
 apply plugin: 'eclipse'
 apply plugin: 'java'
 
+apply from: 'version.gradle'
+
 def s84Group = 'io.service84.library'
-def s84Name = 'Key Value Persistence'
-def s84JarName = 'keyvaluepersistence'
-def s84Description = 'Provides a persisted key value service in a Spring service'
-def s84GithubBase = 'https://github.com/service84-io/key-value-persistence'
-def s84Version = '1.3.50-SNAPSHOT'
 def s84CoreName = s84JarName.split('-')[0]
 
 // configure all java components to be published
